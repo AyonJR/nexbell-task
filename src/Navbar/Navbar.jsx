@@ -31,7 +31,7 @@ export default function Navbar() {
       </div>
 
       {/* navbar */}
-      <nav className="relative bg-black">
+      <nav className="relative bg-gray-900">
         <div className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
           <div className="flex items-center justify-between">
             <h2 className="custom-font text-3xl text-white  font-medium">
