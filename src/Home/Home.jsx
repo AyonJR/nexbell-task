@@ -6,79 +6,82 @@ const Home = () => {
   const [cards, setCards] = useState([]);
   const [filteredCards, setFilteredCards] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState("all");
+  const [filters, setFilters] = useState({
+    category: "",
+    rating: 0,
+    priceRange: [0, Infinity], // New price range filter
+  });
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products")
+    // Fetch products from API
+    fetch("http://localhost:5000/products")
       .then((res) => res.json())
       .then((data) => {
-        setCards(data.products);
-        setFilteredCards(data.products); // Initialize with all products
+        setCards(data);
+        setFilteredCards(data); // Initialize with all products
       });
   }, []);
 
-  // Function to apply filtering from Functionalities component
-  const applyAdditionalFilter = (filter) => {
+  // Function to apply filters
+  const applyFilter = (newFilter) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...newFilter,
+    }));
+  };
+
+  useEffect(() => {
+    // Filtering logic based on category, rating, price range, and search query
     let filtered = cards;
 
-    // Apply filtering logic based on the filter passed
-    if (filter.category) {
-      filtered = filtered.filter((card) => card.category === filter.category);
+    // Category Filter
+    if (filters.category) {
+      filtered = filtered.filter((card) =>
+        card.category.toLowerCase().includes(filters.category.toLowerCase())
+      );
     }
 
-    if (filter.rating) {
-      filtered = filtered.filter((card) => card.rating >= filter.rating);
+    // Rating Filter
+    if (filters.rating > 0) {
+      filtered = filtered.filter((card) => card.rating >= filters.rating);
     }
 
-    // Apply search filter
+    // Price Filter
+    if (filters.priceRange[0] !== 0 || filters.priceRange[1] !== Infinity) {
+      filtered = filtered.filter(
+        (card) => card.price >= filters.priceRange[0] && card.price <= filters.priceRange[1]
+      );
+    }
+
+    // Apply search query
     if (searchQuery) {
       filtered = filtered.filter((card) =>
         card.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Apply price range filter
-    if (priceRange === "below50") {
-      filtered = filtered.filter((card) => card.price < 50);
-    } else if (priceRange === "50to100") {
-      filtered = filtered.filter((card) => card.price >= 50 && card.price <= 100);
-    } else if (priceRange === "above100") {
-      filtered = filtered.filter((card) => card.price > 100);
-    }
-
     setFilteredCards(filtered);
-  };
+  }, [filters, searchQuery, cards]);
 
   // Handle search input change
   const handleSearch = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    applyAdditionalFilter({}); // Reapply filters with updated search query
-  };
-
-  // Handle price range selection
-  const handlePriceSort = (e) => {
-    const range = e.target.value;
-    setPriceRange(range);
-    applyAdditionalFilter({}); // Reapply filters with updated price range
+    setSearchQuery(e.target.value); // Trigger re-filtering via useEffect
   };
 
   return (
     <div>
       <div className="flex w-full px-6 mt-10 gap-5">
-        {/* filter and sorting  */}
+        {/* Filter and sorting */}
         <div className="w-1/5">
-          <Functionalities applyFilter={applyAdditionalFilter} />
+          <Functionalities applyFilter={applyFilter} />
         </div>
 
-        {/* product cards */}
+        {/* Product cards */}
         <div className="w-4/5">
-          <Cards 
+          <Cards
             filteredCards={filteredCards}
             handleSearch={handleSearch}
-            handlePriceSort={handlePriceSort}
             searchQuery={searchQuery}
-            priceRange={priceRange}
           />
         </div>
       </div>

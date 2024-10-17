@@ -72,8 +72,7 @@ const Cards = ({
   return (
     <div>
       {/* Search Products */}
-      <div className="flex w-full">
-        <div className="w-3/4">
+        <div className="w-full">
          <div className="relative p-[2px] rounded-md bg-gradient-to-r from-purple-500 to-pink-500">
          <input
             type="text"
@@ -86,22 +85,7 @@ const Cards = ({
         </div>
 
         {/* Price range sorting */}
-        <div className="ml-4 w-1/4">
-        <div className="relative p-[2px] rounded-md bg-gradient-to-r from-purple-500 to-pink-500">
-  <select
-    value={priceRange}
-    onChange={handlePriceSort}
-    className="w-full p-2 custom-font bg-white border-l-4 border-purple-500 focus:outline-none rounded-md"
-  >
-    <option value="all">All Prices</option>
-    <option value="below50">Below $50</option>
-    <option value="50to100">$50 - $100</option>
-    <option value="above100">Above $100</option>
-  </select>
-</div>
-
-        </div>
-      </div>
+       
 
       {/* Display the current cards */}
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mt-10">
@@ -115,7 +99,7 @@ const Cards = ({
 
               <div className="relative z-10 flex flex-col items-center">
                 <img
-                  src={card.thumbnail}
+                  src={card.images}
                   alt={card.title}
                   className="w-full h-[150px] object-cover mb-4 rounded-md"
                 />

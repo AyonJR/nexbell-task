@@ -91,8 +91,13 @@ export default function Navbar() {
           >
             <div className="flex gap-4 items-center flex-col md:flex-row md:mx-6">
               <Link to={"/"}>
-                <a className="my-2 text-white transition-colors  duration-300 transform  hover:text-blue-500 dark:hover:text-blue-400 md:mx-4 md:my-0">
+                <a className="my-2 text-white transition-colors  duration-300 transform  hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
                   Home
+                </a>
+              </Link>
+              <Link to={"/login"}>
+                <a className="my-2 text-white transition-colors  duration-300 transform  hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                  Login
                 </a>
               </Link>
              
