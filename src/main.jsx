@@ -1,11 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { SnackbarProvider } from 'notistack';  // Import SnackbarProvider
+import App from "./App.jsx";
 import "./index.css";
 import Home from "./Home/Home.jsx";
 import Login from "./Authentication/Login.jsx";
 import AuthProvider from "./AuthProvider/AuthProvider.jsx";
+import Signup from "./Authentication/Signup.jsx";
+import Cart from "./UserCart/Cart.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,12 +16,20 @@ const router = createBrowserRouter([
     element: <App></App>,
     children: [
       {
-        path: '/' , 
+        path: '/',
         element: <Home></Home>
       },
       {
-        path: '/login' , 
+        path: '/login',
         element: <Login></Login>
+      },
+      {
+        path: '/signup',
+        element: <Signup></Signup>
+      },
+      {
+        path: '/cart',
+        element: <Cart></Cart>
       }
     ]
   },
@@ -26,9 +37,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-  <AuthProvider>
-  <RouterProvider router={router} />
-
-  </AuthProvider>
+    <AuthProvider>
+      <SnackbarProvider maxSnack={3}>  
+        <RouterProvider router={router} />
+      </SnackbarProvider>
+    </AuthProvider>
   </StrictMode>
 );

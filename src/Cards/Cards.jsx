@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useSnackbar } from 'notistack'; 
 
 const Cards = ({
   filteredCards,
@@ -7,13 +9,47 @@ const Cards = ({
   searchQuery,
   priceRange,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1); // State to track the current page
-  const cardsPerPage = 10; // Number of cards per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const cardsPerPage = 10;
+  const { user } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
+  console.log(user);
 
-  // Calculate the total number of pages
+  const handleAddToCart = async (product) => {
+    const cartItem = {
+      userEmail: user?.email,
+      userName: user?.displayName,
+      userPhoto: user?.photoURL,
+      id: product._id,
+      title: product.title,
+      price: product.price,
+      rating: product.rating,
+      images: product.images,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/addToCart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        enqueueSnackbar("Added to Cart successfully!", { variant: 'success' });
+      } else {
+        alert("Failed to add item to cart.");
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
   const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
 
-  // Get the current cards to display (based on current page)
+  // Get the current cards to display (
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = filteredCards.slice(indexOfFirstCard, indexOfLastCard);
@@ -72,20 +108,19 @@ const Cards = ({
   return (
     <div>
       {/* Search Products */}
-        <div className="w-full">
-         <div className="relative p-[2px] rounded-md bg-gradient-to-r from-purple-500 to-pink-500">
-         <input
+      <div className="w-full">
+        <div className="relative p-[2px] rounded-md bg-gradient-to-r from-purple-500 to-pink-500">
+          <input
             type="text"
             placeholder="Search products..."
             value={searchQuery}
             onChange={handleSearch}
             className="w-full p-2  rounded-md"
           />
-         </div>
         </div>
+      </div>
 
-        {/* Price range sorting */}
-       
+      {/* Price range sorting */}
 
       {/* Display the current cards */}
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 mt-10">
@@ -112,14 +147,15 @@ const Cards = ({
                 <p className="text-sm text-gray-500">
                   Rating: {card.rating} ⭐
                 </p>
-                <button className="group mt-1 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+                <button
+                  onClick={() => handleAddToCart(card)}
+                  className="group mt-1 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800"
+                >
                   <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Add to Cart
                   </span>
                   <div className="hidden group-hover:block">
-                    <div className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-slate-300 before:-top-2">
-                     
-                    </div>
+                    <div className="group absolute -top-12 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center rounded-sm text-center text-sm text-slate-300 before:-top-2"></div>
                   </div>
                 </button>
               </div>

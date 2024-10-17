@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CiPhone } from "react-icons/ci";
 import { MdOutlineMail } from "react-icons/md";
-
-
+import { FaShoppingCart } from "react-icons/fa";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
- 
+  const { user, logoutUser } = useContext(AuthContext);
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.error("Logout failed: ", error);
+    }
+  };
 
   return (
     <div>
@@ -17,14 +23,18 @@ export default function Navbar() {
           <div>
             <div className="w-full mt-2 flex items-center gap-2">
               <CiPhone className="h-8 w-8 font-bold text-black ml-5"></CiPhone>
-              <h2 className="text-black custom-font font-light text-xl">+ 01415896129</h2>
+              <h2 className="text-black custom-font font-light text-xl">
+                + 01415896129
+              </h2>
             </div>
-           
           </div>
           <div>
-          <div className="w-full mt-2 flex items-center gap-2">
+            <div className="w-full mt-2 flex items-center gap-2">
               <MdOutlineMail className="h-8 w-8 text-black ml-5"></MdOutlineMail>
-              <h2 className="text-black custom-font font-light text-xl"> NexBell@gmail.com</h2>
+              <h2 className="text-black custom-font font-light text-xl">
+                {" "}
+                NexBell@gmail.com
+              </h2>
             </div>
           </div>
         </div>
@@ -91,19 +101,35 @@ export default function Navbar() {
           >
             <div className="flex gap-4 items-center flex-col md:flex-row md:mx-6">
               <Link to={"/"}>
-                <a className="my-2 text-white transition-colors  duration-300 transform  hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
                   Home
-                </a>
+                </span>
               </Link>
-              <Link to={"/login"}>
-                <a className="my-2 text-white transition-colors  duration-300 transform  hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
-                  Login
-                </a>
+              <Link to={"/cart"}>
+                <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                  <FaShoppingCart className="inline-block" /> {/* Cart icon */}
+                </span>
               </Link>
-             
+              {user ? (
+                <>
+                  <button
+                    onClick={handleLogout}
+                    className="my-2 text-purple-500 font-semibold border px-2 py-1 border-purple-500 transition-colors duration-300 transform rounded-md md:mx-4 md:my-0"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                 
+                  <Link to={"/login"}>
+                    <a className="my-2 text-white border px-2 py-1 rounded-md border-white transition-colors duration-300 transform  md:mx-4 md:my-0">
+                        Login
+                    </a>
+                  </Link>
+                </>
+              )}
             </div>
-
-            
           </div>
         </div>
       </nav>

@@ -7,8 +7,9 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { loginUser, loginUserWithGoogle } = useContext(AuthContext);
+  const { loginUser, loginUserWithGoogle , user } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
+
 
   const handleLogin = (e) => {
     e.preventDefault();
