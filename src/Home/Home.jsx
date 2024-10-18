@@ -14,7 +14,7 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch products from API
-    fetch("http://localhost:5000/products")
+    fetch("https://nexbell-server.vercel.app/products")
       .then((res) => res.json())
       .then((data) => {
         setCards(data);

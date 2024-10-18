@@ -11,7 +11,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get("https://nexbell-server.vercel.app/products");
         setProducts(response.data); 
         console.log(response.data);
       } catch (err) {

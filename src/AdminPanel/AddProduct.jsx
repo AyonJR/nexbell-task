@@ -26,7 +26,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/addProduct", product);
+      const response = await axios.post("https://nexbell-server.vercel.app/addProduct", product);
       if (response.data.success) {
         enqueueSnackbar("product added successfully!", { variant: 'success' });
       } else {

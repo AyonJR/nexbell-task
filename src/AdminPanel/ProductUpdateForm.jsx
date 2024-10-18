@@ -20,7 +20,7 @@ const ProductUpdateForm = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/products/${id}`); 
+        const response = await axios.get(`https://nexbell-server.vercel.app/products/${id}`); 
         setProduct(response.data); // Set the product data in the state
       } catch (err) {
         setError("Error fetching product details");
@@ -46,7 +46,7 @@ const ProductUpdateForm = () => {
      const updateProduct = { title , category , price , rating , images}
   
     try {
-      const response = await axios.put(`http://localhost:5000/products/${id}`, updateProduct); // Update product by ID
+      const response = await axios.put(`https://nexbell-server.vercel.app/products/${id}`, updateProduct); // Update product by ID
       if (response.data.success) {
         enqueueSnackbar("Product updated successfully!", { variant: "success" }); 
         navigate("/"); // Navigate to the products page or any other page

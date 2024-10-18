@@ -36,7 +36,7 @@ const Functionalities = ({ applyFilter }) => {
             <option value="furniture">furniture</option>
             <option value="beauty">beauty</option>
             <option value="fragrances">fragrances</option>
-            <option value="women's clothing">Women's Clothing</option>
+            <option value="groceries">groceries</option>
           </select>
         </div>
       </div>

@@ -8,7 +8,7 @@ const Cart = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/cart?email=${user.email}`)
+      fetch(`https://nexbell-server.vercel.app/cart?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => {
           setCartItems(data);
@@ -32,7 +32,7 @@ const Cart = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Send DELETE request to the server
-        fetch(`http://localhost:5000/cart/${itemId}`, {
+        fetch(`https://nexbell-server.vercel.app/cart/${itemId}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())
@@ -69,7 +69,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 custom-font">
+    <div className="container mx-auto p-4 custom-font mb-40">
       {/* Display User Information */}
       <div className="user-info mb-8">
         <h2 className="text-4xl font-bold text-center mb-6">My Cart</h2>
@@ -93,7 +93,8 @@ const Cart = () => {
 
       {/* Display Cart Items */}
       {cartItems.length > 0 ? (
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md overflow-x-scroll">
+       <div className="overflow-x-auto">
+         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md overflow-x-scroll">
           <thead>
             <tr className="bg-gray-100">
               <th className="py-2 px-4 border-b">Image</th>
@@ -175,6 +176,7 @@ const Cart = () => {
             ))}
           </tbody>
         </table>
+       </div>
       ) : (
         <p>No items in the cart.</p>
       )}

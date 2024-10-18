@@ -12,6 +12,7 @@ import Cart from "./UserCart/Cart.jsx";
 import AddProduct from "./AdminPanel/AddProduct.jsx";
 import UpdateProduct from "./AdminPanel/UpdateProduct.jsx";
 import ProductUpdateForm from "./AdminPanel/ProductUpdateForm.jsx"
+import PrivateRoute from "./PrivateRoute/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,19 +33,19 @@ const router = createBrowserRouter([
       },
       {
         path: '/cart',
-        element: <Cart></Cart>
+        element: <PrivateRoute><Cart></Cart></PrivateRoute>
       },
       {
         path: '/add-product',
-        element: <AddProduct></AddProduct>
+        element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
       },
       {
         path: '/update-product',
-        element: <UpdateProduct></UpdateProduct>
+        element: <PrivateRoute><UpdateProduct></UpdateProduct></PrivateRoute>
       },
        {
         path:"/product-form/:id" ,
-       element:<ProductUpdateForm />
+       element: <PrivateRoute><ProductUpdateForm /></PrivateRoute>
        }
     ]
   },

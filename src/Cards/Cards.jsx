@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-import { useSnackbar } from 'notistack'; 
+import { useSnackbar } from "notistack";
 
 const Cards = ({
   filteredCards,
@@ -16,29 +16,36 @@ const Cards = ({
   console.log(user);
 
   const handleAddToCart = async (product) => {
+    // Check if the user is authenticated
+    if (!user) {
+      // Notify the user to log in before adding items to the cart
+      enqueueSnackbar("Please log in to add items to your cart.", { variant: "warning" });
+      return; // Prevent further execution if no user is logged in
+    }
+  
     const cartItem = {
-      userEmail: user?.email,
-      userName: user?.displayName,
-      userPhoto: user?.photoURL,
+      userEmail: user.email,
+      userName: user.displayName,
+      userPhoto: user.photoURL,
       id: product._id,
       title: product.title,
       price: product.price,
       rating: product.rating,
       images: product.images,
     };
-
+  
     try {
-      const response = await fetch("http://localhost:5000/addToCart", {
+      const response = await fetch("https://nexbell-server.vercel.app/addToCart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(cartItem),
       });
-
+  
       const data = await response.json();
       if (data.success) {
-        enqueueSnackbar("Added to Cart successfully!", { variant: 'success' });
+        enqueueSnackbar("Added to Cart successfully!", { variant: "success" });
       } else {
         alert("Failed to add item to cart.");
       }
@@ -46,6 +53,7 @@ const Cards = ({
       console.error("Error adding item to cart:", error);
     }
   };
+  
 
   const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
 
@@ -142,9 +150,11 @@ const Cards = ({
                   {card.title}
                 </h2>
                 <p className="text-md font-semibold text-gray-700">
-  {/* Check if price is a number before using toFixed */}
-  ${typeof card.price === "number" ? card.price.toFixed(2) : "N/A"}
-</p>
+                  {/* Check if price is a number before using toFixed */}$
+                  {typeof card.price === "number"
+                    ? card.price.toFixed(2)
+                    : "N/A"}
+                </p>
 
                 <p className="text-sm text-gray-500">
                   Rating: {card.rating} ⭐
