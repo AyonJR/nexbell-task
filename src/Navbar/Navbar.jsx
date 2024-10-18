@@ -114,11 +114,20 @@ export default function Navbar() {
               </Link>
 
               {isAdmin ? (
-                <Link to={"/add-product"}>
-                  <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
-                    Add Product
-                  </span>
-                </Link>
+               <>
+               <Link to={"/add-product"}>
+                 <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                   Add Product
+                 </span>
+               </Link>
+               <Link to={"/update-product"}>
+                 <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                   Update Product
+                 </span>
+               </Link>
+             </>
+
+                
               ) : (
                 <Link to={"/cart"}>
                   <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">

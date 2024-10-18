@@ -70,14 +70,14 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex w-full px-6 mt-10 gap-5">
+      <div className="flex lg:flex-row flex-col w-full px-6 mt-10 gap-5">
         {/* Filter and sorting */}
-        <div className="w-1/5">
+        <div className="lg:w-1/5 w-full">
           <Functionalities applyFilter={applyFilter} />
         </div>
 
         {/* Product cards */}
-        <div className="w-4/5">
+        <div className="lg:w-4/5 w-full">
           <Cards
             filteredCards={filteredCards}
             handleSearch={handleSearch}

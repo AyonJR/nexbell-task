@@ -10,6 +10,8 @@ import AuthProvider from "./AuthProvider/AuthProvider.jsx";
 import Signup from "./Authentication/Signup.jsx";
 import Cart from "./UserCart/Cart.jsx";
 import AddProduct from "./AdminPanel/AddProduct.jsx";
+import UpdateProduct from "./AdminPanel/UpdateProduct.jsx";
+import ProductUpdateForm from "./AdminPanel/ProductUpdateForm.jsx"
 
 const router = createBrowserRouter([
   {
@@ -35,7 +37,15 @@ const router = createBrowserRouter([
       {
         path: '/add-product',
         element: <AddProduct></AddProduct>
-      }
+      },
+      {
+        path: '/update-product',
+        element: <UpdateProduct></UpdateProduct>
+      },
+       {
+        path:"/product-form/:id" ,
+       element:<ProductUpdateForm />
+       }
     ]
   },
 ]);

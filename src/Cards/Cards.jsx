@@ -142,8 +142,10 @@ const Cards = ({
                   {card.title}
                 </h2>
                 <p className="text-md font-semibold text-gray-700">
-                  ${card.price.toFixed(2)}
-                </p>
+  {/* Check if price is a number before using toFixed */}
+  ${typeof card.price === "number" ? card.price.toFixed(2) : "N/A"}
+</p>
+
                 <p className="text-sm text-gray-500">
                   Rating: {card.rating} ⭐
                 </p>
