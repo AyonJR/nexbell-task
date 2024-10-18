@@ -1,3 +1,4 @@
+// Navbar.js
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CiPhone } from "react-icons/ci";
@@ -7,7 +8,9 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logoutUser } = useContext(AuthContext);
+  const { user, isAdmin, loading, logoutUser } = useContext(AuthContext);
+  console.log(isAdmin)
+
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -16,13 +19,18 @@ export default function Navbar() {
     }
   };
 
+  // Render nothing while loading
+  if (loading) {
+    return null;
+  }
+
   return (
     <div>
       <div className="w-full h-12 custom-font bg-white hidden lg:block">
         <div className="flex gap-5 w-full">
           <div>
             <div className="w-full mt-2 flex items-center gap-2">
-              <CiPhone className="h-8 w-8 font-bold text-black ml-5"></CiPhone>
+              <CiPhone className="h-8 w-8 font-bold text-black ml-5" />
               <h2 className="text-black custom-font font-light text-xl">
                 + 01415896129
               </h2>
@@ -30,9 +38,8 @@ export default function Navbar() {
           </div>
           <div>
             <div className="w-full mt-2 flex items-center gap-2">
-              <MdOutlineMail className="h-8 w-8 text-black ml-5"></MdOutlineMail>
+              <MdOutlineMail className="h-8 w-8 text-black ml-5" />
               <h2 className="text-black custom-font font-light text-xl">
-                {" "}
                 NexBell@gmail.com
               </h2>
             </div>
@@ -40,11 +47,11 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* navbar */}
+      {/* Navbar */}
       <nav className="relative bg-gray-900">
         <div className="container px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
           <div className="flex items-center justify-between">
-            <h2 className="custom-font text-3xl text-white  font-medium">
+            <h2 className="custom-font text-3xl text-white font-medium">
               NexBell
             </h2>
 
@@ -53,7 +60,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
-                className="text-white hover:text-white  focus:outline-none "
+                className="text-white hover:text-white focus:outline-none"
                 aria-label="toggle menu"
               >
                 {isOpen ? (
@@ -105,29 +112,34 @@ export default function Navbar() {
                   Home
                 </span>
               </Link>
-              <Link to={"/cart"}>
-                <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
-                  <FaShoppingCart className="inline-block" /> {/* Cart icon */}
-                </span>
-              </Link>
-              {user ? (
-                <>
-                  <button
-                    onClick={handleLogout}
-                    className="my-2 text-purple-500 font-semibold border px-2 py-1 border-purple-500 transition-colors duration-300 transform rounded-md md:mx-4 md:my-0"
-                  >
-                    Logout
-                  </button>
-                </>
+
+              {isAdmin ? (
+                <Link to={"/add-product"}>
+                  <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                    Add Product
+                  </span>
+                </Link>
               ) : (
-                <>
-                 
-                  <Link to={"/login"}>
-                    <a className="my-2 text-white border px-2 py-1 rounded-md border-white transition-colors duration-300 transform  md:mx-4 md:my-0">
-                        Login
-                    </a>
-                  </Link>
-                </>
+                <Link to={"/cart"}>
+                  <span className="my-2 text-white transition-colors duration-300 transform hover:text-purple-500 dark:hover:text-purple-400 md:mx-4 md:my-0">
+                    <FaShoppingCart className="inline-block" />
+                  </span>
+                </Link>
+              )}
+
+              {user ? (
+                <button
+                  onClick={handleLogout}
+                  className="my-2 text-purple-500 font-semibold border px-2 py-1 border-purple-500 transition-colors duration-300 transform rounded-md md:mx-4 md:my-0"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link to={"/login"}>
+                  <span className="my-2 text-white border px-2 py-1 rounded-md border-white transition-colors duration-300 transform md:mx-4 md:my-0">
+                    Login
+                  </span>
+                </Link>
               )}
             </div>
           </div>
